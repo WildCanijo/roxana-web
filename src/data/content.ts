@@ -200,14 +200,6 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export const CATEGORIES: ("All" | Category)[] = [
-  "All",
-  "Branding",
-  "Digital",
-  "Editorial",
-  "Art Direction",
-];
-
 // Tall crops of book photos (public/work/tall) that run along the hero
 // ticker, each linked to the project it comes from.
 export const TICKER: { src: string; alt: string; project: string }[] = [
@@ -274,43 +266,6 @@ export const EXPERIENCE = [
   },
 ];
 
-export const SKILLS = [
-  "Art & creative direction",
-  "Branding & brand identity",
-  "UI/UX design",
-  "Product design",
-  "Web design",
-  "Wireframing & prototyping",
-  "Digital & interactive experiences",
-  "Editorial & commercial design",
-  "Social media design",
-];
-
-export const TOOLS = ["Figma", "Illustrator", "Photoshop", "InDesign"];
-
-export const STRENGTHS = [
-  {
-    title: "Leadership",
-    text: "Experience managing creative teams and leading product and design initiatives.",
-  },
-  {
-    title: "Versatility",
-    text: "Brings together traditional graphic design, digital product design, branding and UX.",
-  },
-  {
-    title: "Premium branding",
-    text: "Work for luxury hospitality and internationally recognised brands.",
-  },
-  {
-    title: "Digital experience",
-    text: "A background in interactive experiences and digital platforms.",
-  },
-  {
-    title: "Creative strategy",
-    text: "Contributes beyond execution: concept, brand positioning and art direction.",
-  },
-];
-
 export const CLIENTS = [
   "AZULIK",
   "América Móvil",
@@ -325,3 +280,59 @@ export const CLIENTS = [
 ];
 
 export const EMAIL = "roxana.fadanelli@gmail.com";
+
+// Pastel cards in the "Services." row.
+export const SERVICES = [
+  {
+    title: "Branding",
+    text: "Logos and identity systems with their own glyphs, palettes and voice.",
+    color: "var(--lavender)",
+  },
+  {
+    title: "Art direction",
+    text: "Concepts, shoots and campaigns that tell one story from start to finish.",
+    color: "var(--lime)",
+  },
+  {
+    title: "UI/UX design",
+    text: "Websites and digital products designed around the people who use them.",
+    color: "var(--rose)",
+  },
+  {
+    title: "Editorial",
+    text: "Magazines and brochures with clear systems and room for the images.",
+    color: "var(--peach)",
+  },
+  {
+    title: "Digital experiences",
+    text: "Interactive experiences for museums and major brands, from concept to interface.",
+    color: "var(--sky)",
+  },
+];
+
+export const FAQ = [
+  {
+    q: "What kind of work do you take on?",
+    a: "Branding and brand identity, art and creative direction, UI/UX and product design, web design, editorial design and digital experiences.",
+  },
+  {
+    q: "What is your background?",
+    a: "About ten years across design: art director at ISUUE Magazine, senior UX designer at Cocolab, product team lead at América Móvil and senior design manager at AZULIK. Since 2022 I work independently.",
+  },
+  {
+    q: "Who have you worked with?",
+    a: "AZULIK, América Móvil and Claro Música, Papalote Museo del Niño, Cocolab, Corona, Victoria, Roth Architecture and Country Lakes, among others.",
+  },
+  {
+    q: "Which tools do you use?",
+    a: "Figma, Illustrator, Photoshop and InDesign.",
+  },
+  {
+    q: "Where are you based?",
+    a: "In Mexico, working with brands in Mexico and abroad.",
+  },
+  {
+    q: "How do we start?",
+    a: "Send me a few lines about your project with the form below or by email, and I'll get back to you.",
+  },
+];

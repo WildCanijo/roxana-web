@@ -2,91 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Sage Garden theme (21st.dev · serafimcloud) ─────────────────── */
+/* ── theme: white page, near-black ink, cool grey panels, pastel cards ── */
 :root {
-  --background: #f8f7f4;
-  --foreground: #1a1f2e;
+  --background: #ffffff;
+  --foreground: #1e1e1e;
   --card: #ffffff;
-  --card-foreground: #1a1f2e;
-  --popover: #ffffff;
-  --popover-foreground: #1a1f2e;
-  --primary: #7c9082;
+  --card-foreground: #1e1e1e;
+  --primary: #1e1e1e;
   --primary-foreground: #ffffff;
-  --secondary: #ced4bf;
-  --secondary-foreground: #1a1f2e;
-  --muted: #e8e6e1;
-  --muted-foreground: #6b7280;
-  --accent: #bfc9bb;
-  --accent-foreground: #1a1f2e;
-  --destructive: #c73e3a;
-  --destructive-foreground: #ffffff;
-  --border: #e8e6e1;
-  --input: #ffffff;
-  --ring: #7c9082;
-  --chart-1: #7c9082;
-  --chart-2: #a0aa88;
-  --chart-3: #8b9d83;
-  --chart-4: #6b7280;
-  --chart-5: #e8e6e1;
-  --sidebar: #fafaf8;
-  --sidebar-foreground: #1a1f2e;
-  --sidebar-primary: #7c9082;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e8e6e1;
-  --sidebar-accent-foreground: #1a1f2e;
-  --sidebar-border: #e8e6e1;
-  --sidebar-ring: #7c9082;
-  /* Signifier is a paid face; Newsreader is the free stand-in. */
-  --font-sans: Antic, ui-sans-serif, sans-serif, system-ui;
-  --font-serif: Signifier, "Newsreader", Georgia, serif;
-  --font-mono: "JetBrains Mono", "Courier New", monospace;
-  --radius: 0.35rem;
-  --shadow-color: #1a1f2e;
-  --shadow-opacity: 0.04;
-  --shadow-blur: 2px;
-  --shadow-spread: 0px;
-  --shadow-offset-x: 0px;
-  --shadow-offset-y: 1px;
-  --letter-spacing: 0em;
-}
+  --secondary: #eef0f6;
+  --secondary-foreground: #1e1e1e;
+  --muted: #eef0f6;
+  --muted-foreground: #5a6271;
+  --accent: #e5daf6;
+  --accent-foreground: #1e1e1e;
+  --border: #dcdfe7;
+  --ring: #1e1e1e;
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #f5f5f5;
-  --card: #121212;
-  --card-foreground: #f5f5f5;
-  --popover: #121212;
-  --popover-foreground: #f5f5f5;
-  --primary: #7c9082;
-  --primary-foreground: #000000;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #f5f5f5;
-  --muted: #1a1a1a;
-  --muted-foreground: #a0a0a0;
-  --accent: #36443a;
-  --accent-foreground: #f5f5f5;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #2a2a2a;
-  --input: #121212;
-  --ring: #7c9082;
-  --chart-1: #7c9082;
-  --chart-2: #a0aa88;
-  --chart-3: #8b9d83;
-  --chart-4: #6b7280;
-  --chart-5: #5a6b5e;
-  --sidebar: #0f0f0f;
-  --sidebar-foreground: #f5f5f5;
-  --sidebar-primary: #7c9082;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #f5f5f5;
-  --sidebar-border: #2a2a2a;
-  --sidebar-ring: #7c9082;
-  --shadow-color: #000000;
-}
+  --lavender: #e5daf6;
+  --lime: #cfffb2;
+  --rose: #ffc9c9;
+  --peach: #fedca6;
+  --sky: #99eeff;
 
-/* Colour, font and radius utilities are mapped in tailwind.config.js. */
+  /* Inter with optical sizing switches to its Display cut at large sizes. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Chivo Mono", ui-monospace, monospace;
+  --radius: 0.75rem;
+}
 
 /* ── base ──────────────────────────────────────────────────────── */
 @layer base {
@@ -99,11 +42,12 @@
   }
   body {
     @apply bg-background font-sans text-foreground antialiased;
-    letter-spacing: var(--letter-spacing);
+    font-optical-sizing: auto;
+    font-feature-settings: "ss01" off;
   }
   ::selection {
-    background: var(--accent);
-    color: var(--accent-foreground);
+    background: var(--lime);
+    color: var(--foreground);
   }
   :focus-visible {
     outline: 2px solid var(--ring);
@@ -111,13 +55,45 @@
   }
 }
 
-/* Small mono labels, like the captions in the printed book. */
 @layer components {
-  .label {
+  /* Small mono captions: "( _01 )", "( 001 )", dates. */
+  .mono {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
+    line-height: 1.22;
+  }
+  /* Section titles: "Latest Projects.", "FAQ." */
+  .display {
+    font-size: clamp(2.75rem, 4.2vw, 3.75rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  /* Statement copy. */
+  .lead {
+    font-size: clamp(1.9rem, 3.35vw, 3rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  /* Text link with a short bar under it that runs full width on hover. */
+  .bar-link {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.35rem;
+  }
+  .bar-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1.5px;
+    width: 1.75rem;
+    background: currentColor;
+    transition: width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .bar-link:hover::after {
+    width: 100%;
   }
 }
 
@@ -125,22 +101,29 @@
 .reveal {
   opacity: 0;
   transform: translateY(24px);
+  filter: blur(8px);
   transition:
     opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .reveal.is-in {
   opacity: 1;
   transform: none;
+  filter: none;
 }
-/* Hero ticker: the list is doubled, so sliding by half loops seamlessly. */
-@keyframes ticker {
+
+/* Endless rows. Each list is rendered twice, so sliding by half loops. */
+@keyframes marquee {
   to {
-    transform: translateX(calc(-50% - 0.3125rem));
+    transform: translateX(-50%);
   }
 }
-.ticker-track {
-  animation: ticker 110s linear infinite;
+.marquee {
+  animation: marquee var(--marquee-speed, 60s) linear infinite;
+}
+.marquee-pause:hover .marquee {
+  animation-play-state: paused;
 }
 
 /* Hero elements rise in on load. */
@@ -157,42 +140,59 @@
 
 /* Statement words sharpen out of a blur. */
 .blur-word {
-  opacity: 0.08;
-  filter: blur(10px);
-  transform: translateY(0.25em);
+  opacity: 0.1;
+  filter: blur(8px);
   transition:
     opacity 0.8s ease,
-    filter 0.8s ease,
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    filter 0.8s ease;
 }
 .blur-word.is-in {
   opacity: 1;
   filter: none;
-  transform: none;
 }
 
-/* Soft blurred edges at the top and bottom of the screen. */
+/* Soft blurred band behind the header, and a fade at the bottom edge. */
 .edge-blur {
   position: fixed;
   left: 0;
   right: 0;
   z-index: 30;
   pointer-events: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .edge-blur--top {
   top: 0;
-  height: 6rem;
-  background: linear-gradient(to bottom, var(--background), transparent);
-  mask-image: linear-gradient(to bottom, #000 35%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent);
+  height: 5rem;
+  background: rgb(255 255 255 / 0.55);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
 }
 .edge-blur--bottom {
   bottom: 0;
-  height: 5rem;
+  height: 4rem;
   mask-image: linear-gradient(to top, #000 10%, transparent);
   -webkit-mask-image: linear-gradient(to top, #000 10%, transparent);
+}
+
+/* Full-width menu that drops down from the top. */
+.menu-panel {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.7s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.menu-panel.is-open {
+  clip-path: inset(0 0 0 0);
+}
+.menu-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.is-open .menu-item {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -200,7 +200,8 @@
     scroll-behavior: auto;
   }
   .reveal,
-  .blur-word {
+  .blur-word,
+  .menu-item {
     opacity: 1;
     filter: none;
     transform: none;
@@ -209,7 +210,7 @@
   .hero-rise {
     animation: none;
   }
-  .ticker-track {
+  .marquee {
     animation-play-state: paused;
   }
 }

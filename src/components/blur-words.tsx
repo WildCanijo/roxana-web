@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Splits text into words that sharpen out of a blur one after another the
- * first time the block scrolls into view. Wrap a word in *asterisks* to set
- * it in the accent colour and italic serif.
+ * first time the block scrolls into view. Wrap words in *asterisks* to set
+ * them in the muted grey.
  */
 export function BlurWords({ text, className }: { text: string; className?: string }) {
   const ref = React.useRef<HTMLParagraphElement>(null);
@@ -38,11 +38,11 @@ export function BlurWords({ text, className }: { text: string; className?: strin
             <React.Fragment key={i}>
               <span
                 className={cn(
-                  "blur-word inline-block",
+                  "blur-word",
                   inView && "is-in",
-                  accent && "font-serif italic text-primary",
+                  accent && "text-muted-foreground",
                 )}
-                style={{ transitionDelay: `${i * 45}ms` }}
+                style={{ transitionDelay: `${i * 40}ms` }}
               >
                 {word}
               </span>{" "}
