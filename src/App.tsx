@@ -1,5 +1,6 @@
 import * as React from "react";
-import { TiltedGridHero } from "@/components/ui/tilted-grid-hero";
+import { Hero } from "@/components/hero";
+import { BlurWords } from "@/components/blur-words";
 import { ProjectViewer } from "@/components/project-viewer";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
@@ -8,7 +9,6 @@ import {
   CLIENTS,
   EMAIL,
   EXPERIENCE,
-  HERO_PAGES,
   PROJECTS,
   SKILLS,
   STRENGTHS,
@@ -17,9 +17,8 @@ import {
   type Project,
 } from "@/data/content";
 
-const HERO_IMAGES = HERO_PAGES.map((p) => ({ src: sm(p) }));
-
 const NAV = [
+  { href: "#top", label: "Home" },
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
@@ -44,14 +43,19 @@ export default function App() {
     [openIndex, visible],
   );
   const close = React.useCallback(() => setOpenId(null), []);
+  // Cards in the hero can point at any project, so clear the filter first.
+  const openFromHero = React.useCallback((id: string) => {
+    setFilter("All");
+    setOpenId(id);
+  }, []);
 
   return (
     <>
       <Header />
+      <div aria-hidden className="edge-blur edge-blur--bottom" />
       <main>
-        <Hero />
-        <Clients />
-        <Intro />
+        <Hero onOpenProject={openFromHero} />
+        <Statement />
 
         <section id="work" className="px-5 py-24 md:px-10 md:py-32">
           <div className="mx-auto max-w-[1400px]">
@@ -115,123 +119,134 @@ export default function App() {
   );
 }
 
-/* ── header ─────────────────────────────────────────────────────── */
+/* ── header: monogram left, "+" menu right, over a blurred top edge ── */
 
 function Header() {
-  const [solid, setSolid] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [overDark, setOverDark] = React.useState(false);
+  const panel = React.useRef<HTMLDivElement>(null);
+
+  // Switch to light-on-dark while the dark contact section is behind the header.
   React.useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const contact = document.getElementById("contact");
+    if (!contact) return;
+    const io = new IntersectionObserver(([e]) => setOverDark(e.isIntersecting), {
+      rootMargin: "0px 0px -92% 0px",
+    });
+    io.observe(contact);
+    return () => io.disconnect();
   }, []);
 
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onClick = (e: MouseEvent) => {
+      if (!panel.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onClick);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onClick);
+    };
+  }, [open]);
+
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-[background-color,border-color,backdrop-filter] duration-300",
-        solid ? "border-b border-border bg-background/80 backdrop-blur-md" : "border-b border-transparent",
-      )}
-    >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
-        <a href="#top" className="font-serif text-[15px] tracking-[0.08em]">
-          <strong className="font-semibold">ROXANA</strong> <em className="font-light">FADANELLI</em>
-        </a>
-        <nav aria-label="Main">
-          <ul className="flex items-center gap-1 md:gap-2">
-            {NAV.map((n, i) => (
-              <li key={n.href} className={cn(i === 1 || i === 2 ? "hidden sm:block" : "")}>
-                <a
-                  href={n.href}
-                  className="label rounded-md px-2.5 py-2 text-muted-foreground transition hover:text-foreground"
-                >
-                  {n.label}
-                </a>
+    <div className={cn(overDark && "dark")}>
+      <div aria-hidden className="edge-blur edge-blur--top" />
+      <header className="fixed inset-x-0 top-0 z-40 text-foreground">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-5 md:px-8">
+          <a href="#top" aria-label="Roxana Fadanelli, home" className="font-serif text-[1.65rem] leading-none tracking-tight">
+            <span className="font-semibold">r</span>
+            <em className="font-light">f</em>
+          </a>
+
+          <div ref={panel} className="relative">
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((o) => !o)}
+              className="relative grid h-10 w-10 place-items-center"
+            >
+              <span
+                className={cn(
+                  "absolute h-px w-8 bg-current transition-transform duration-500",
+                  open && "rotate-[135deg]",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute h-8 w-px bg-current transition-transform duration-500",
+                  open && "rotate-[135deg]",
+                )}
+              />
+            </button>
+
+            <div
+              id="site-menu"
+              className={cn(
+                "absolute right-0 top-14 w-[min(20rem,calc(100vw-2.5rem))] origin-top-right rounded-xl border border-border bg-card p-6 text-card-foreground shadow-xl transition duration-300",
+                open ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0",
+              )}
+            >
+              <nav aria-label="Main">
+                <ul className="space-y-3">
+                  {NAV.map((n, i) => (
+                    <li key={n.href} className="flex items-baseline gap-4">
+                      <span className="label w-16 shrink-0 whitespace-nowrap text-muted-foreground">( _{String(i + 1).padStart(2, "0")} )</span>
+                      <a
+                        href={n.href}
+                        tabIndex={open ? 0 : -1}
+                        onClick={() => setOpen(false)}
+                        className="font-serif text-3xl tracking-tight transition hover:italic hover:text-primary"
+                      >
+                        {n.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <a
+                href={`mailto:${EMAIL}`}
+                tabIndex={open ? 0 : -1}
+                className="label mt-6 block border-t border-border pt-4 text-muted-foreground transition hover:text-primary"
+              >
+                {EMAIL}
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+}
+
+/* ── statement: words sharpen out of a blur, clients underneath ──── */
+
+function Statement() {
+  return (
+    <section aria-label="About in brief" className="px-5 pb-8 pt-20 md:px-10 md:pt-28">
+      <div className="mx-auto max-w-[62rem] text-center">
+        <BlurWords
+          text="I’m Roxana — an art director shaping *premium* brands, thoughtful digital products and images that tell *one* story."
+          className="text-balance text-[clamp(2rem,4.6vw,4rem)] leading-[1.08] tracking-[-0.03em]"
+        />
+        <Reveal delay={200}>
+          <ul className="mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-9 gap-y-3">
+            {CLIENTS.map((c) => (
+              <li key={c} className="label text-muted-foreground">
+                {c}
               </li>
             ))}
           </ul>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-/* ── hero: the 21st.dev Tilted Grid Hero streaming pages of the book ── */
-
-function Hero() {
-  return (
-    <TiltedGridHero
-      id="top"
-      images={HERO_IMAGES}
-      speed={3.6}
-      tileHeight={28}
-      axis={60}
-      curve={78}
-      fade={10}
-      className="h-[100svh] min-h-[640px] w-full bg-background"
-    >
-      <div className="relative z-10 mx-auto flex h-full max-w-[1400px] flex-col items-center justify-between px-5 pb-10 pt-24 text-center md:px-10 md:pt-28">
-        <div>
-          <p className="label text-muted-foreground">Portfolio · México</p>
-          <h1 className="mt-5 font-serif text-[clamp(2.6rem,8.5vw,7.5rem)] leading-[0.92] tracking-[0.02em]">
-            <span className="font-semibold">ROXANA</span>{" "}
-            <em className="font-light">FADANELLI</em>
-          </h1>
-          <p className="mt-4 font-serif text-lg tracking-[0.12em] md:text-xl">
-            <em className="font-light">ART DIRECTOR</em> &amp; <strong className="font-semibold">UI–UX</strong>
-          </p>
-        </div>
-
-        <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-md text-balance text-muted-foreground md:text-left">
-            Art director, graphic designer and product designer with about ten years in branding, UI/UX,
-            digital experiences and creative direction.
-          </p>
-          <a
-            href="#work"
-            className="label group inline-flex items-center gap-3 rounded-full bg-primary px-5 py-3 text-primary-foreground transition hover:bg-foreground hover:text-background"
-          >
-            See the work
-            <span aria-hidden className="transition group-hover:translate-y-0.5">↓</span>
-          </a>
-        </div>
-      </div>
-    </TiltedGridHero>
-  );
-}
-
-/* ── client strip ───────────────────────────────────────────────── */
-
-function Clients() {
-  return (
-    <section aria-label="Clients and collaborators" className="border-y border-border bg-secondary/40">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-5 py-6 md:px-10">
-        {CLIENTS.map((c) => (
-          <span key={c} className="label text-secondary-foreground/70">
-            {c}
-          </span>
-        ))}
+        </Reveal>
       </div>
     </section>
   );
 }
 
-/* ── statement ──────────────────────────────────────────────────── */
-
-function Intro() {
-  return (
-    <section className="px-5 pt-24 md:px-10 md:pt-36">
-      <Reveal className="mx-auto max-w-5xl">
-        <p className="font-serif text-3xl leading-[1.2] tracking-tight md:text-5xl md:leading-[1.15]">
-          I build brands and digital products that feel{" "}
-          <em className="text-primary">crafted</em>, from luxury hospitality in Tulum to music streaming and
-          museum experiences. Concept, identity, interface and image,{" "}
-          <em className="text-primary">directed as one story</em>.
-        </p>
-      </Reveal>
-    </section>
-  );
-}
 
 /* ── project card: tilts toward the pointer, like a tile on the hero's arc ── */
 

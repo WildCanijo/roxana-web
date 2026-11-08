@@ -2,7 +2,7 @@
 
 Portfolio site for **Roxana Fadanelli**, Art Director & UI/UX.
 
-Built with React, Vite and Tailwind CSS, using the 21st.dev *Sage Garden* theme and *Tilted Grid Hero* component.
+Built with React, Vite and Tailwind CSS, using the 21st.dev *Sage Garden* theme. The hero is a wordmark over an endless ticker of tall cards cropped from the book (`public/work/tall`).
 
 ## Run locally
 

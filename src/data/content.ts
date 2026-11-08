@@ -208,10 +208,38 @@ export const CATEGORIES: ("All" | Category)[] = [
   "Art Direction",
 ];
 
-// Pages that stream through the hero band.
-export const HERO_PAGES = [
-  8, 12, 30, 20, 3, 43, 14, 35, 18, 27, 39, 21, 5, 31, 22, 11, 24, 41, 17, 32, 36, 44, 15, 7,
-];
+// Tall crops of book photos (public/work/tall) that run along the hero
+// ticker, each linked to the project it comes from.
+export const TICKER: { src: string; alt: string; project: string }[] = [
+  ["country-lakes", "Borus logo embroidered on a white shirt collar"],
+  ["concepts", "Model standing in still water, Aníkena shoot"],
+  ["gran-lagarto", "Gran Lagarto leather golf bag tag"],
+  ["country-lakes", "Woman reading the Serona book"],
+  ["tseen-ja", "Cocktail set design with red paper and gold leaf"],
+  ["la-quinta-emilia", "Lit pillar in a dark room, La Quinta Emilia"],
+  ["concepts", "Figure wrapped in fabric, concept shoot"],
+  ["gran-lagarto", "Gran Lagarto golf jacket"],
+  ["azulik-web", "Azulik website on a phone"],
+  ["country-lakes", "Hand holding an Ophidia postcard"],
+  ["loop", "Loop Light Festival street poster"],
+  ["concepts", "Woman holding a branch, concept shoot"],
+  ["mawi", "Wicker vases, Mawi"],
+  ["twolander", "Twolander magazine cover"],
+  ["country-lakes", "Borus tote bag"],
+  ["in-between", "In Between poster for Azulik Sounds"],
+  ["gran-lagarto", "Gran Lagarto leather golf glove"],
+  ["twolander", "Illustrated food spread in a magazine"],
+  ["claro-musica", "Claro Música sign-in screen"],
+  ["twolander", "Reading an illustrated magazine spread"],
+  ["country-lakes", "Ophidia packaging with an embossed seal"],
+  ["gran-lagarto", "Golfer at sunset, Gran Lagarto"],
+  ["roth", "Roth Architecture organic sphere"],
+  ["country-lakes", "Man sailing, Serona campaign"],
+].map(([project, alt], i) => ({
+  project,
+  alt,
+  src: `/work/tall/t${String(i + 1).padStart(2, "0")}.jpg`,
+}));
 
 export const EXPERIENCE = [
   {
