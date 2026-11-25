@@ -272,11 +272,16 @@ function ProjectCard({ project, delay, onOpen }: { project: Project; delay: numb
         className="group block w-full text-left"
         aria-label={`Open ${project.title}: ${project.subtitle}`}
       >
-        <div className="aspect-[676/540] overflow-hidden rounded-[1.5rem] bg-muted">
+        <div className="relative aspect-[676/540] overflow-hidden rounded-[1.5rem] bg-muted after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-inset after:ring-black/[0.06]">
           <img
-            src={sm(project.cover)}
+            src={project.coverZoom ? lg(project.cover) : sm(project.cover)}
             alt=""
             loading="lazy"
+            style={{
+              objectPosition: project.coverPos,
+              transformOrigin: project.coverPos,
+              scale: project.coverZoom,
+            }}
             className="h-full w-full object-cover transition duration-[900ms] ease-out group-hover:scale-[1.04]"
           />
         </div>

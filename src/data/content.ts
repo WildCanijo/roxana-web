@@ -16,6 +16,10 @@ export type Project = {
   goals?: string[];
   credits?: string[];
   cover: number;
+  /** CSS object-position for the cover crop. */
+  coverPos?: string;
+  /** Zooms the cover in on coverPos (uses the large image so it stays sharp). */
+  coverZoom?: number;
   pages: number[];
 };
 
@@ -36,6 +40,7 @@ export const PROJECTS: Project[] = [
       "Visual storytelling in line with the Azulik universe",
     ],
     cover: 30,
+    coverPos: "100% 50%",
     pages: [29, 30, 31, 32],
   },
   {
@@ -46,7 +51,8 @@ export const PROJECTS: Project[] = [
     roles: ["Brand identity", "Art direction", "Campaign"],
     summary:
       "A family of identities for a residential development in Mérida. The master brand sits above three sub-brands, Serona, Borus and Ophidia, each with its own glyph, palette and voice, carried through print, merchandise and billboard campaigns.",
-    cover: 9,
+    cover: 17,
+    coverPos: "10% 40%",
     pages: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
   },
   {
@@ -57,7 +63,8 @@ export const PROJECTS: Project[] = [
     roles: ["Brand identity", "Merchandise", "Art direction"],
     summary:
       "A heritage golf identity with a crocodile emblem, a script-and-serif wordmark and a deep green palette, applied to leather goods, apparel and club life.",
-    cover: 19,
+    cover: 21,
+    coverPos: "50% 50%",
     pages: [19, 20, 21, 22],
   },
   {
@@ -69,6 +76,7 @@ export const PROJECTS: Project[] = [
     summary:
       "A fluid, liquid-metal logotype for an art and interior design studio, paired with a warm, crafted image world and a quiet monospaced system for stationery, packaging and web.",
     cover: 8,
+    coverPos: "50% 30%",
     pages: [6, 7, 8],
   },
   {
@@ -79,7 +87,8 @@ export const PROJECTS: Project[] = [
     roles: ["UI/UX", "Web design"],
     summary:
       "A dark, sculptural website for an architecture studio, built around its generative organic structure, with project filters and a menu designed for mobile first.",
-    cover: 35,
+    cover: 33,
+    coverPos: "50% 50%",
     pages: [33, 34, 35],
   },
   {
@@ -91,6 +100,7 @@ export const PROJECTS: Project[] = [
     summary:
       "A vibrating logotype and spirograph graphics for a light festival, applied to street posters, business cards and event credentials.",
     cover: 3,
+    coverPos: "50% 50%",
     pages: [2, 3],
   },
   {
@@ -103,6 +113,7 @@ export const PROJECTS: Project[] = [
     summary:
       "The identity and website for a New Year's Eve dinner and multisensory experience at SFER IK Tulum. A sacred-geometry mark links earth, wind, fire and water to humanity: five elements, five senses.",
     cover: 5,
+    coverPos: "50% 50%",
     pages: [4, 5],
   },
   {
@@ -125,6 +136,7 @@ export const PROJECTS: Project[] = [
     summary:
       "Work on the museum's interactive experiences, from concept and UX through to interface design, including a laser-cutter station where kids design their own pieces.",
     cover: 37,
+    coverPos: "95% 50%",
     pages: [37],
   },
   {
@@ -135,7 +147,9 @@ export const PROJECTS: Project[] = [
     roles: ["Editorial design", "Identity", "Art direction"],
     summary:
       "The masthead, identity and editorial system for a travel and culture magazine: airy layouts for photography and a playful illustrated food section.",
-    cover: 39,
+    cover: 41,
+    coverPos: "0% 45%",
+    coverZoom: 1.8,
     pages: [38, 39, 40, 41],
   },
   {
@@ -148,6 +162,8 @@ export const PROJECTS: Project[] = [
     summary:
       "An editorial brochure for Azulik Hive that pairs restrained typography with the brand's fashion and art collaborations.",
     cover: 28,
+    coverPos: "40% 45%",
+    coverZoom: 1.5,
     pages: [28],
   },
   {
@@ -159,6 +175,8 @@ export const PROJECTS: Project[] = [
     summary:
       "An identity for a production house, built on a primitive, totem-like symbol and a classical serif, with a dark, sculptural mood for its imagery.",
     cover: 24,
+    coverPos: "66% 42%",
+    coverZoom: 2.1,
     pages: [23, 24],
   },
   {
@@ -184,6 +202,8 @@ export const PROJECTS: Project[] = [
       "Collage artworks for the restaurant's campaign and a cocktail set design built from paper, stone and fibre.",
     credits: ["Set design: Roxana Fadanelli", "Photography: Santiago Baravalle", "Tulum, México"],
     cover: 27,
+    coverPos: "58% 55%",
+    coverZoom: 1.5,
     pages: [26, 27],
   },
   {
@@ -195,43 +215,21 @@ export const PROJECTS: Project[] = [
     summary:
       "Conceptual fashion and brand shoots: fabric, water and raw architecture used to tell the story of each collection.",
     credits: ["Art direction: Roxana Fadanelli", "Photography: Santiago Baravalle"],
-    cover: 43,
+    cover: 44,
+    coverPos: "50% 40%",
     pages: [42, 43, 44],
   },
 ];
 
-// Tall crops of book photos (public/work/tall) that run along the hero
-// ticker, each linked to the project it comes from.
-export const TICKER: { src: string; alt: string; project: string }[] = [
-  ["country-lakes", "Borus logo embroidered on a white shirt collar"],
-  ["concepts", "Model standing in still water, Aníkena shoot"],
-  ["gran-lagarto", "Gran Lagarto leather golf bag tag"],
-  ["country-lakes", "Woman reading the Serona book"],
-  ["tseen-ja", "Cocktail set design with red paper and gold leaf"],
-  ["la-quinta-emilia", "Lit pillar in a dark room, La Quinta Emilia"],
-  ["concepts", "Figure wrapped in fabric, concept shoot"],
-  ["gran-lagarto", "Gran Lagarto golf jacket"],
-  ["azulik-web", "Azulik website on a phone"],
-  ["country-lakes", "Hand holding an Ophidia postcard"],
-  ["loop", "Loop Light Festival street poster"],
-  ["concepts", "Woman holding a branch, concept shoot"],
-  ["mawi", "Wicker vases, Mawi"],
-  ["twolander", "Twolander magazine cover"],
-  ["country-lakes", "Borus tote bag"],
-  ["in-between", "In Between poster for Azulik Sounds"],
-  ["gran-lagarto", "Gran Lagarto leather golf glove"],
-  ["twolander", "Illustrated food spread in a magazine"],
-  ["claro-musica", "Claro Música sign-in screen"],
-  ["twolander", "Reading an illustrated magazine spread"],
-  ["country-lakes", "Ophidia packaging with an embossed seal"],
-  ["gran-lagarto", "Golfer at sunset, Gran Lagarto"],
-  ["roth", "Roth Architecture organic sphere"],
-  ["country-lakes", "Man sailing, Serona campaign"],
-].map(([project, alt], i) => ({
-  project,
-  alt,
-  src: `/work/tall/t${String(i + 1).padStart(2, "0")}.jpg`,
-}));
+// Full-width pages that rotate in the hero panel, each linked to its project.
+export const HERO_SLIDES: { page: number; project: string; pos: string; alt: string }[] = [
+  { page: 15, project: "country-lakes", pos: "50% 50%", alt: "Ophidia packaging with an embossed seal" },
+  { page: 21, project: "gran-lagarto", pos: "50% 45%", alt: "Gran Lagarto golf jacket and leather glove" },
+  { page: 44, project: "concepts", pos: "50% 35%", alt: "Three portraits from a concept shoot" },
+  { page: 18, project: "country-lakes", pos: "50% 55%", alt: "Serona billboard campaign by the sea" },
+  { page: 41, project: "twolander", pos: "50% 50%", alt: "Reading the illustrated food spread in a Twolander magazine" },
+  { page: 3, project: "loop", pos: "50% 50%", alt: "Loop Light Festival bus-stop poster and cards" },
+];
 
 export const EXPERIENCE = [
   {

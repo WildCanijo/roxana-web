@@ -126,6 +126,24 @@
   animation-play-state: paused;
 }
 
+/* Slides settle from a slight zoom; the progress line under the panel fills. */
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.14);
+  }
+}
+.hero-zoom {
+  animation: hero-zoom 7s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+@keyframes fill {
+  from {
+    transform: scaleX(0) translateY(-50%);
+  }
+  to {
+    transform: scaleX(1) translateY(-50%);
+  }
+}
+
 /* Hero elements rise in on load. */
 @keyframes hero-rise {
   from {
